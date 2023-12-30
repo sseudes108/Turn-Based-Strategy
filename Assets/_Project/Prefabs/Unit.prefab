@@ -2561,7 +2561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b7143fe6a0acb4459d9e57565f90247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxMoveDistance: 4
+  maxMoveDistance: 2
 --- !u!65 &5948922736684930519
 BoxCollider:
   m_ObjectHideFlags: 0

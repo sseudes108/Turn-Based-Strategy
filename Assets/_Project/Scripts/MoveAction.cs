@@ -25,7 +25,7 @@ public class MoveAction : MonoBehaviour{
             float moveSpeed = 4f;
             transform.position += moveSpeed * Time.deltaTime * direction;
 
-            float rotateSpeed = 7f;
+            float rotateSpeed = 12f;
             transform.forward = Vector3.Lerp(transform.forward, direction, rotateSpeed * Time.deltaTime);
 
             PlayRunAnimation();

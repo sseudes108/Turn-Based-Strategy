@@ -18,6 +18,7 @@ public class UnitActionSystem : MonoBehaviour{
         }
         Instance = this;
     }
+    
     private void Update() {
         if (Input.GetMouseButtonDown(0)){
             if(TryHandleUnitSelection()) return;
