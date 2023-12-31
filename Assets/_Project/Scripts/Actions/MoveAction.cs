@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MoveAction : BaseAction{
+public class MoveAction : BaseAction {
     [SerializeField] private int maxMoveDistance;
 
     private Vector3 _targetPosition;
@@ -30,7 +30,7 @@ public class MoveAction : BaseAction{
             // _isActive = false;
             // _onActionComplete_SetBusy(false);
         }
-        float rotateSpeed = 12f;
+        float rotateSpeed = 33f;
         transform.forward = Vector3.Lerp(transform.forward, Direction(), rotateSpeed * Time.deltaTime);
     }
 
@@ -38,7 +38,7 @@ public class MoveAction : BaseAction{
         return (_targetPosition - transform.position).normalized;
     }
 
-    public void Move(GridPosition targetPosition, Action<bool> onActionComplete_SetBusy){
+    public override void TakeAction(GridPosition targetPosition, Action<bool> onActionComplete_SetBusy){
         OnActionStart(onActionComplete_SetBusy);
         // this._onActionComplete_SetBusy = _onActionComplete_SetBusy;
         // _isActive = true;
@@ -52,12 +52,7 @@ public class MoveAction : BaseAction{
         _animator.ChangeAnimationState(_animator.RIFLE_AIMING_IDLE);
     }
 
-    public bool IsValidActionGridPosition(GridPosition gridPosition){
-        List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
-        return validGridPositionList.Contains(gridPosition);
-    }
-
-    public List<GridPosition> GetValidActionGridPositionList(){
+    public override List<GridPosition> GetValidActionGridPositionList(){
         List<GridPosition> validActionGridPositionList = new();
 
         GridPosition unitGridPosition = _unit.GetGridPosition();
