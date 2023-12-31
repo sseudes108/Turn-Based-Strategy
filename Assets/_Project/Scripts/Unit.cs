@@ -6,9 +6,13 @@ public class Unit : MonoBehaviour{
     public event EventHandler OnUnitPositionChanged;
     private GridPosition _currentGridposition;
     private MoveAction _moveAction;
+    private SpinAction _spinAction;
+    private BaseAction[] _baseActionArray;
 
     private void Awake() {
         _moveAction = GetComponent<MoveAction>();
+        _spinAction = GetComponent<SpinAction>();
+        _baseActionArray = GetComponents<BaseAction>();
     }
 
     private void Start() {
@@ -33,7 +37,15 @@ public class Unit : MonoBehaviour{
         return _moveAction;
     }
 
+    public SpinAction GetSpintAction(){
+        return _spinAction;
+    }
+
     public GridPosition GetGridPosition(){
         return _currentGridposition;
+    }
+
+    public BaseAction[] GetBaseActionArray(){
+        return _baseActionArray;
     }
 }

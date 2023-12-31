@@ -25,9 +25,11 @@ public class GridSystemVisual : MonoBehaviour{
                 Transform gridSystemVisualSingleTransform = Instantiate(_gridVisualSinglePrefab, LevelGrid.Instance.GetWorldPosition(gridPosition), Quaternion.identity);
                 gridSystemVisualSingleArray[x, z] = gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
             }
-        }
+        }        
+    }
 
-        HideAllGridPosition();
+    private void Update() {
+        UpdateGridVisual();
     }
 
     public void HideAllGridPosition(){
@@ -39,8 +41,14 @@ public class GridSystemVisual : MonoBehaviour{
     }
 
     public void ShowGridPositionList(List<GridPosition> gridPositionList){
-        foreach(GridPosition grid in gridPositionList){
-            gridSystemVisualSingleArray[grid._x, grid._z].Show();
+        foreach(GridPosition gridposition in gridPositionList){
+            gridSystemVisualSingleArray[gridposition._x, gridposition._z].Show();
         }
+    }
+
+    private void UpdateGridVisual(){
+        Unit unit = UnitActionSystem.Instance.GetSelectedUnit();
+        HideAllGridPosition();
+        ShowGridPositionList(unit.GetMoveAction().GetValidActionGridPositionList());
     }
 }
