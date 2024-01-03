@@ -37,7 +37,7 @@ public class Unit : MonoBehaviour{
         return _moveAction;
     }
 
-    public SpinAction GetSpintAction(){
+    public SpinAction GetSpinAction(){
         return _spinAction;
     }
 

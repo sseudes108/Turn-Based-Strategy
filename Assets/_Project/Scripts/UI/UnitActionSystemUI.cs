@@ -10,13 +10,16 @@ public class UnitActionSystemUI : MonoBehaviour{
 
     private void OnEnable() {
         UnitActionSystem.Instance.OnUnitSelectedChanged += UnitActionSystem_OnUnitSelectedChanged;
+        UnitActionSystem.Instance.OnUnitActionChanged += UnitActionSystem_OnUnitActionChanged;
     }
     private void OnDisable() {
         UnitActionSystem.Instance.OnUnitSelectedChanged -= UnitActionSystem_OnUnitSelectedChanged;
+        UnitActionSystem.Instance.OnUnitActionChanged -= UnitActionSystem_OnUnitActionChanged;
     }
 
     private void Start() {
         CreateUnitActionButtons();
+        UpdateSelectedVisuals();
     }
 
     private void CreateUnitActionButtons(){
@@ -38,5 +41,21 @@ public class UnitActionSystemUI : MonoBehaviour{
 
     private void UnitActionSystem_OnUnitSelectedChanged(object sender, EventArgs e){
         CreateUnitActionButtons();
+    }
+
+    private void UnitActionSystem_OnUnitActionChanged(object sender, EventArgs e){
+        UpdateSelectedVisuals();
+    }
+
+    private void UpdateSelectedVisuals(){
+        BaseAction selectedAction = UnitActionSystem.Instance.GetSelectedAction();
+        foreach(Transform button in _actionButtonConteinerTransform){
+            ActionButtonUI actionButtonUI = button.GetComponent<ActionButtonUI>();
+            if(actionButtonUI.GetActionName() == selectedAction.GetActionName().ToUpper()){
+                actionButtonUI.EnableSelectedVisual(true);
+            }else{
+                actionButtonUI.EnableSelectedVisual(false);
+            }
+        }
     }
 }

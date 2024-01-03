@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MoveAction : BaseAction {
@@ -27,8 +26,6 @@ public class MoveAction : BaseAction {
         }else{
             PlayIdleAnimation();
             OnActionComplete();
-            // _isActive = false;
-            // _onActionComplete_SetBusy(false);
         }
         float rotateSpeed = 33f;
         transform.forward = Vector3.Lerp(transform.forward, Direction(), rotateSpeed * Time.deltaTime);
@@ -40,8 +37,6 @@ public class MoveAction : BaseAction {
 
     public override void TakeAction(GridPosition targetPosition, Action<bool> onActionComplete_SetBusy){
         OnActionStart(onActionComplete_SetBusy);
-        // this._onActionComplete_SetBusy = _onActionComplete_SetBusy;
-        // _isActive = true;
         _targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
     }
 

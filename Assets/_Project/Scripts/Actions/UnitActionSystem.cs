@@ -6,6 +6,7 @@ public class UnitActionSystem : MonoBehaviour{
 
     public static UnitActionSystem Instance {get; private set;}
     public event EventHandler OnUnitSelectedChanged;
+    public event EventHandler OnUnitActionChanged;
     
     [SerializeField] private Unit _selectedUnit;
     private BaseAction _selectedAction;
@@ -66,10 +67,14 @@ public class UnitActionSystem : MonoBehaviour{
         _selectedUnit = unit;
         SetSelectedAction(unit.GetMoveAction());
         OnUnitSelectedChanged?.Invoke(this, EventArgs.Empty);
+        OnUnitActionChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public void SetSelectedAction(BaseAction baseAction){
-        _selectedAction = baseAction;
+        if(!_isBusy){
+            _selectedAction = baseAction;
+            OnUnitActionChanged?.Invoke(this, EventArgs.Empty);     
+        }
     }
 
     public Unit GetSelectedUnit(){
