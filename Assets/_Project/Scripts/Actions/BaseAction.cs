@@ -1,9 +1,10 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 
 public abstract class BaseAction : MonoBehaviour{
-    protected Action<bool> _onActionComplete_SetBusy;
+    public Action<bool> _onActionComplete_SetBusy;
     protected Unit _unit;
     protected AnimationPlayer _animator;
     protected bool _isActive;

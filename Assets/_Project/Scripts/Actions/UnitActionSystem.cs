@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -7,6 +8,7 @@ public class UnitActionSystem : MonoBehaviour{
     public static UnitActionSystem Instance {get; private set;}
     public event EventHandler OnUnitSelectedChanged;
     public event EventHandler OnUnitActionChanged;
+    public event Action OnBusyChanged;
     
     [SerializeField] private Unit _selectedUnit;
     private BaseAction _selectedAction;
@@ -47,6 +49,7 @@ public class UnitActionSystem : MonoBehaviour{
 
     private void SetBusy(bool busy){
         _isBusy = busy;
+        OnBusyChanged.Invoke();
     }
 
     private bool TryHandleUnitSelection(){
