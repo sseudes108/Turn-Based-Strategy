@@ -9,6 +9,7 @@ public class UnitActionSystem : MonoBehaviour{
     public event EventHandler OnUnitSelectedChanged;
     public event EventHandler OnUnitActionChanged;
     public event Action OnBusyChanged;
+    public event Action OnActionStart;
     
     [SerializeField] private Unit _selectedUnit;
     private BaseAction _selectedAction;
@@ -40,9 +41,14 @@ public class UnitActionSystem : MonoBehaviour{
     private void HandleSelectedAction(){   
         if(Input.GetMouseButtonDown(0)){
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+
             if(_selectedAction.IsValidActionGridPosition(mouseGridPosition)){
+
+                if(!_selectedUnit.TrySpendActionPointsToTakeAction(_selectedAction)){return;}
+                
                 SetBusy(true);
                 _selectedAction.TakeAction(mouseGridPosition, SetBusy);
+                OnActionStart?.Invoke();
             }
         }
     }
