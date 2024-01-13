@@ -13,6 +13,8 @@ public class Unit : MonoBehaviour{
     private BaseAction[] _baseActionArray;
     private int _actionPoints = ACTION_POINTS_MAX;
 
+    [SerializeField] private bool _isEnemy;
+
     private void OnEnable() {
         TurnSystem.OnTurnEnd += TurnSystem_OnTurnEnd;
     }
@@ -44,8 +46,6 @@ public class Unit : MonoBehaviour{
         _currentGridposition = newGridPosition;
     }
 
-
-
     public MoveAction GetMoveAction(){
         return _moveAction;
     }
@@ -60,6 +60,10 @@ public class Unit : MonoBehaviour{
 
     public BaseAction[] GetBaseActionArray(){
         return _baseActionArray;
+    }
+
+    public bool IsEnemy(){
+        return _isEnemy;
     }
 
     public bool TrySpendActionPointsToTakeAction(BaseAction baseAction){
@@ -81,8 +85,10 @@ public class Unit : MonoBehaviour{
     
     //Reset Action points
     private void TurnSystem_OnTurnEnd(){
-        _actionPoints = ACTION_POINTS_MAX;
-        OnAnyActionPointsChanged.Invoke(this, EventArgs.Empty);
+        if (IsEnemy() && !TurnSystem.Instance.IsPlayerTurn() || !IsEnemy() && TurnSystem.Instance.IsPlayerTurn()){
+            _actionPoints = ACTION_POINTS_MAX;
+            OnAnyActionPointsChanged.Invoke(this, EventArgs.Empty);
+        }
     }
     public int GetActionPoints(){
         return _actionPoints;
