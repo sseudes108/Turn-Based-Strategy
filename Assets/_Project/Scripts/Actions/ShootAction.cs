@@ -13,6 +13,8 @@ public class ShootAction : BaseAction{
     
     private float _totalSpinAmount;
     private int _maxShootDistance = 7;
+    private Unit _targetUnit;
+    private bool _canShootBullet;
 
     private void Update() {
         if(!_isActive)return;
@@ -21,7 +23,7 @@ public class ShootAction : BaseAction{
 
         switch (_state){
             case State.Aiming:
-
+                Rotate();
                 if(_stateTimer <= 0){
                     _state = State.Shooting;
                     float shootingTime = 0.1f;
@@ -29,15 +31,24 @@ public class ShootAction : BaseAction{
                 }
                 break;
             case State.Shooting:
+
+                if(_canShootBullet){
+                    PlayShootAnimation();
+                    Shoot();
+                    _canShootBullet = false;
+                }
+
                 if(_stateTimer <= 0){
                     _state = State.CoolOff;
-                    float coolOfStateTime = 0.5f;
+                    float coolOfStateTime = 0.1f;
                     _stateTimer = coolOfStateTime;
                 }
+
                 break;
             case State.CoolOff:
                 if(_stateTimer <= 0){
-                    OnActionComplete();
+                    PlayIdleAnimation();
+                    ActionComplete();
                 }
                 break;
             default:
@@ -45,8 +56,23 @@ public class ShootAction : BaseAction{
         }
     }
 
-    public override string GetActionName(){
-        return "Shoot";
+    private void Shoot(){
+        _targetUnit.Damage();
+    }
+
+    private void PlayShootAnimation(){
+        _animator.ChangeAnimationState(_animator.FIRING_RIFLE);
+    }
+
+    // private void PlayIdleAnimation(){
+
+    // }
+
+    private void Rotate(){
+        float rotationSpeed = 15f;
+        Vector3 aimDirection = (_targetUnit.transform.position - transform.position).normalized;
+
+        transform.forward = Vector3.Lerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList(){
@@ -86,10 +112,18 @@ public class ShootAction : BaseAction{
     }
 
     public override void TakeAction(GridPosition gridposition, Action<bool> onActionComplete_SetBusy){
-        OnActionStart(onActionComplete_SetBusy);
+        ActionStart(onActionComplete_SetBusy);
 
+        _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridposition);
+        
         _state = State.Aiming;
         float aimingTime = 1f;
         _stateTimer = aimingTime;
+
+        _canShootBullet = true;
+    }
+
+    public override string GetActionName(){
+        return "Shoot";
     }
 }

@@ -12,11 +12,11 @@ public class SpinAction : BaseAction{
         
         _totalSpinAmount += spinAmount;
         if(_totalSpinAmount >= 360){
-            OnActionComplete();
+            ActionComplete();
         }
     }
     public override void TakeAction(GridPosition gridposition, Action<bool> onActionComplete_SetBusy){
-        OnActionStart(onActionComplete_SetBusy);
+        ActionStart(onActionComplete_SetBusy);
         _totalSpinAmount = 0;
     }
 

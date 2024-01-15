@@ -90,7 +90,12 @@ public class Unit : MonoBehaviour{
             OnAnyActionPointsChanged.Invoke(this, EventArgs.Empty);
         }
     }
+
     public int GetActionPoints(){
         return _actionPoints;
+    }
+
+    public void Damage(){
+        Debug.Log(transform + " Damaged");
     }
 }

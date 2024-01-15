@@ -14,11 +14,11 @@ public abstract class BaseAction : MonoBehaviour{
         _animator = GetComponent<AnimationPlayer>();
     }
 
-    protected void OnActionComplete(){
+    protected void ActionComplete(){
         _isActive = false;
         _onActionComplete_SetBusy(false);
     }
-    protected void OnActionStart(Action<bool> onActionComplete_SetBusy){
+    protected void ActionStart(Action<bool> onActionComplete_SetBusy){
         this._onActionComplete_SetBusy = onActionComplete_SetBusy;
         _isActive = true;
     }
@@ -35,5 +35,9 @@ public abstract class BaseAction : MonoBehaviour{
 
     public virtual int GetActionPointsCost(){
         return 1;
+    }
+
+    protected void PlayIdleAnimation(){
+        _animator.ChangeAnimationState(_animator.RIFLE_AIMING_IDLE);
     }
 }
