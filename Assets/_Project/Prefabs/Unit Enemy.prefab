@@ -548,6 +548,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.000000057822458
       objectReference: {fileID: 0}
+    - target: {fileID: 4115766302470511762, guid: df441d614df8af74583846355da36939,
+        type: 3}
+      propertyPath: _ragdollPrefab
+      value: 
+      objectReference: {fileID: 7025200041832803845, guid: e0c11a7290bd5d448bb871c26eba41c3,
+        type: 3}
     - target: {fileID: 4142272770772236464, guid: df441d614df8af74583846355da36939,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1426,29 +1432,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9031898599618703483, guid: df441d614df8af74583846355da36939,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9210055787660983744}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df441d614df8af74583846355da36939, type: 3}
---- !u!1 &3736289285473153510 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9031898599618703483, guid: df441d614df8af74583846355da36939,
-    type: 3}
-  m_PrefabInstance: {fileID: 5660541648365896093}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &9210055787660983744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3736289285473153510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4ccfb1c04e97684899a4ffb2ac6ee8b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ragdollPrefab: {fileID: 6526115521252198513, guid: f02d09e6306afba48a3883fd56539cd1,
-    type: 3}

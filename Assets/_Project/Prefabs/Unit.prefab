@@ -2503,6 +2503,7 @@ GameObject:
   - component: {fileID: 7565465467705136801}
   - component: {fileID: 3974480686191705848}
   - component: {fileID: 7302985823050710905}
+  - component: {fileID: 4115766302470511762}
   - component: {fileID: 5948922736684930519}
   m_Layer: 7
   m_Name: Unit
@@ -2606,6 +2607,21 @@ MonoBehaviour:
   _bulletProjectilePrefab: {fileID: 990800871689213351, guid: c00bf0888a099114a950092b1551bab2,
     type: 3}
   _firePoint: {fileID: 8083343986015611651}
+--- !u!114 &4115766302470511762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9031898599618703483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ccfb1c04e97684899a4ffb2ac6ee8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _ragdollPrefab: {fileID: 6526115521252198513, guid: 476ef13ae45d00b4e862cfe30496e4bf,
+    type: 3}
+  _originalRootBone: {fileID: 6342927569751381860}
 --- !u!65 &5948922736684930519
 BoxCollider:
   m_ObjectHideFlags: 0
