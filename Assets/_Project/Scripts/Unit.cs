@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Unit : MonoBehaviour{
@@ -8,6 +9,8 @@ public class Unit : MonoBehaviour{
 
     public event EventHandler OnUnitPositionChanged;
     private GridPosition _currentGridposition;
+    
+    private HealthSystem _healthSystem;
     private MoveAction _moveAction;
     private SpinAction _spinAction;
     private BaseAction[] _baseActionArray;
@@ -17,12 +20,15 @@ public class Unit : MonoBehaviour{
 
     private void OnEnable() {
         TurnSystem.OnTurnEnd += TurnSystem_OnTurnEnd;
+        _healthSystem.OnDead += HealhSystem_OnDead;
     }
     private void OnDisable() {
         TurnSystem.OnTurnEnd -= TurnSystem_OnTurnEnd;
+        _healthSystem.OnDead -= HealhSystem_OnDead;
     }
 
     private void Awake() {
+        _healthSystem = GetComponent<HealthSystem>();
         _moveAction = GetComponent<MoveAction>();
         _spinAction = GetComponent<SpinAction>();
         _baseActionArray = GetComponents<BaseAction>();
@@ -31,6 +37,8 @@ public class Unit : MonoBehaviour{
     private void Start() {
         _currentGridposition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(_currentGridposition, this);
+
+        
     }
 
     private void Update(){
@@ -95,7 +103,12 @@ public class Unit : MonoBehaviour{
         return _actionPoints;
     }
 
-    public void Damage(){
-        Debug.Log(transform + " Damaged");
+    public void Damage(int damageAmount){
+        _healthSystem.Damage(damageAmount);
+    }
+
+    private void HealhSystem_OnDead(object sender, EventArgs e){
+        LevelGrid.Instance.RemoveUnitAtGridPosition(_currentGridposition, this);
+        Destroy(gameObject);
     }
 }

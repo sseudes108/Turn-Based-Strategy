@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class ShootAction : BaseAction{
 
+    [SerializeField] private Transform _bulletProjectilePrefab;
+    [SerializeField] private Transform _firePoint;
+
     private enum State{
         Aiming, Shooting, CoolOff,
     }
 
     private State _state;
     private float _stateTimer;
-    
-    private float _totalSpinAmount;
     private int _maxShootDistance = 7;
     private Unit _targetUnit;
     private bool _canShootBullet;
@@ -57,16 +58,18 @@ public class ShootAction : BaseAction{
     }
 
     private void Shoot(){
-        _targetUnit.Damage();
+        Transform newBullet = Instantiate(_bulletProjectilePrefab, _firePoint.position, Quaternion.identity);
+        Vector3 shotDirection = _targetUnit.transform.position;
+        shotDirection.y = _firePoint.transform.position.y;
+
+        newBullet.GetComponent<BulletProjectile>().Init(shotDirection);
+
+        _targetUnit.Damage(40);
     }
 
     private void PlayShootAnimation(){
         _animator.ChangeAnimationState(_animator.FIRING_RIFLE);
     }
-
-    // private void PlayIdleAnimation(){
-
-    // }
 
     private void Rotate(){
         float rotationSpeed = 15f;
@@ -81,29 +84,21 @@ public class ShootAction : BaseAction{
         GridPosition unitGridPosition = _unit.GetGridPosition();
 
         for (int x = -_maxShootDistance; x <= _maxShootDistance; x++){
-
             for (int z = -_maxShootDistance; z <= _maxShootDistance; z++){
-                
                 GridPosition offSetGridPosition = new(x,z);
                 GridPosition testGridPosition = unitGridPosition + offSetGridPosition;
 
                 if(!LevelGrid.Instance.IsValidGridPosition(testGridPosition)){continue;}
 
                 int aimDistance = Mathf.Abs(x) + Mathf.Abs(z);
-                if(aimDistance > _maxShootDistance){
-                    continue;
-                }
+                if(aimDistance > _maxShootDistance){continue;}
 
                 //Se não estiver ocupada, continue
                 if(!LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)){continue;}
 
                 Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
-
-                if(targetUnit.IsEnemy() == _unit.IsEnemy()){
-                    //Both units are in the same "Team"
-                    continue;
-                }
-                                
+                //Both units are in the same "Team"
+                if(targetUnit.IsEnemy() == _unit.IsEnemy()){continue;}
 
                 validActionGridPositionList.Add(testGridPosition);
             }
