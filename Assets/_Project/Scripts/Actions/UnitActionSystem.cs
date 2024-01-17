@@ -85,7 +85,7 @@ public class UnitActionSystem : MonoBehaviour{
     public void SetSelectedAction(BaseAction baseAction){
         if(!_isBusy){
             _selectedAction = baseAction;
-            OnUnitActionChanged?.Invoke(this, EventArgs.Empty);     
+            OnUnitActionChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 

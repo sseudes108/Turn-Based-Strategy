@@ -5,7 +5,7 @@ public class UnitRagdoll : MonoBehaviour{
 
     public void Setup(Transform originalRootBone){
         MatchAllChildTransforms(originalRootBone, _ragdoolRootBone);
-        // ApplyExplosionForceToRagdoll(_ragdoolRootBone, 300, transform.position, 10f);
+        ApplyExplosionForceToRagdoll(_ragdoolRootBone, 100, transform.position, 10f);
     }
 
     private void MatchAllChildTransforms(Transform unitRoot, Transform ragdolRoot){
@@ -22,12 +22,8 @@ public class UnitRagdoll : MonoBehaviour{
     private void ApplyExplosionForceToRagdoll(Transform root, float explosionForce, Vector3 explosionPosition, float explosionRange){
         foreach(Transform child in root){
             if(child.TryGetComponent<Rigidbody>(out Rigidbody childRigidbody)){
-                // childRigidbody.angularVelocity = Vector3.zero;
-                // childRigidbody.linearVelocity = Vector3.zero;
-                // childRigidbody.solverVelocityIterations = 20;
-                // childRigidbody.AddExplosionForce(explosionForce, explosionPosition, explosionRange);
+                childRigidbody.AddExplosionForce(explosionForce, explosionPosition, explosionRange);
             }
-
             ApplyExplosionForceToRagdoll(child, explosionForce, explosionPosition, explosionRange);
         }
     }

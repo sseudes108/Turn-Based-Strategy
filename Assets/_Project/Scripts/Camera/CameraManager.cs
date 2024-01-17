@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour{
@@ -27,12 +26,13 @@ public class CameraManager : MonoBehaviour{
             case ShootAction shootAction:
                 Unit shooterUnit = shootAction.GetUnit();
                 Unit targetUnit = shootAction.GetTargetUnit();
+                
                 Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
 
                 Vector3 shootDir = (targetUnit.GetWordPosition() - shooterUnit.GetWordPosition()).normalized;
 
                 float shoulderOffsetAmout = 0.5f;
-                Vector3 shoulderOffset = Quaternion.Euler(0,90,0)* shootDir * shoulderOffsetAmout;
+                Vector3 shoulderOffset = Quaternion.Euler(0, 90, 0)* shootDir * shoulderOffsetAmout;
 
                 Vector3 actionCameraPos = shooterUnit.GetWordPosition() + cameraCharacterHeight + shoulderOffset + shootDir * -1;
 

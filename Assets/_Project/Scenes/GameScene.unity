@@ -2906,6 +2906,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7302985823050710905, guid: df441d614df8af74583846355da36939,
+        type: 3}
+      propertyPath: _maxShootDistance
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9031898599618703483, guid: df441d614df8af74583846355da36939,
         type: 3}
       propertyPath: m_Name
@@ -3456,6 +3461,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridVisualSinglePrefab: {fileID: 6033861396458771664, guid: 7d9f9f19812413e44b3566a5d33dddc0,
     type: 3}
+  _gridVisualTypeMaterialsList:
+  - gridVisualType: 0
+    material: {fileID: 2100000, guid: 7140f4968edacbd408e54260aec348c8, type: 2}
+  - gridVisualType: 1
+    material: {fileID: 2100000, guid: 995b0860806ca0b4386c9b07604ada00, type: 2}
+  - gridVisualType: 2
+    material: {fileID: 2100000, guid: 705cc742cb10fef449fe62cd902cd9e9, type: 2}
+  - gridVisualType: 4
+    material: {fileID: 2100000, guid: aea63a35f6b4ace4987c93a36b7766dc, type: 2}
+  - gridVisualType: 3
+    material: {fileID: 2100000, guid: 757fc30eb83495f45adc2341a3906ed5, type: 2}
 --- !u!114 &2138828396
 MonoBehaviour:
   m_ObjectHideFlags: 0

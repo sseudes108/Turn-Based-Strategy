@@ -1,9 +1,10 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class LevelGrid : MonoBehaviour{
     public static LevelGrid Instance {get; private set;}
     [SerializeField] private Transform _gridObjectDebug;
+
     private GridSystem _gridSystem;
 
     private void Awake() {
@@ -24,11 +25,6 @@ public class LevelGrid : MonoBehaviour{
         GridObject gridObject = _gridSystem.GetGridObjet(gridPosition);
         gridObject.AddUnit(unit);
     }
-
-    // public List<Unit> GetUnitAtGridPosition(GridPosition gridPosition){
-    //     GridObject gridObject = _gridSystem.GetGridObjet(gridPosition);
-    //     return gridObject.GetUnitList();
-    // }
 
     public void RemoveUnitAtGridPosition(GridPosition gridPosition, Unit unit){
         GridObject gridObject = _gridSystem.GetGridObjet(gridPosition);

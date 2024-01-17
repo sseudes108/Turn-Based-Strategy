@@ -1,10 +1,8 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Unit : MonoBehaviour{
     private const int ACTION_POINTS_MAX = 2;
-
     public static event EventHandler OnAnyActionPointsChanged;
 
     public event EventHandler OnUnitPositionChanged;
@@ -37,7 +35,6 @@ public class Unit : MonoBehaviour{
     private void Start() {
         _currentGridposition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(_currentGridposition, this);
-
     }
 
     private void Update(){
@@ -74,7 +71,6 @@ public class Unit : MonoBehaviour{
     }
 
     public Vector3 GetWordPosition(){
-        //return new Vector3(_currentGridposition._x, 0, _currentGridposition._z) * 2f;
         return LevelGrid.Instance.GetWorldPosition(_currentGridposition);
     }
 

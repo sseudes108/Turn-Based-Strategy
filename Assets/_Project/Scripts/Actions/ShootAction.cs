@@ -44,7 +44,6 @@ public class ShootAction : BaseAction{
                     float coolOfStateTime = 0.1f;
                     _stateTimer = coolOfStateTime;
                 }
-
                 break;
             case State.CoolOff:
                 if(_stateTimer <= 0){
@@ -118,11 +117,7 @@ public class ShootAction : BaseAction{
         ActionStart(onActionComplete_SetBusy);
     }
 
-    public override string GetActionName(){
-        return "Shoot";
-    }
-
-    public Unit GetTargetUnit(){
-        return _targetUnit;
-    }
+    public override string GetActionName() => "Shoot";
+    public Unit GetTargetUnit() => _targetUnit;
+    public int GetMaxShootDistance() => _maxShootDistance;
 }
