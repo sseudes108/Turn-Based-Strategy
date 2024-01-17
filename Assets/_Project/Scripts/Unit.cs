@@ -38,7 +38,6 @@ public class Unit : MonoBehaviour{
         _currentGridposition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(_currentGridposition, this);
 
-        
     }
 
     private void Update(){
@@ -72,6 +71,11 @@ public class Unit : MonoBehaviour{
 
     public bool IsEnemy(){
         return _isEnemy;
+    }
+
+    public Vector3 GetWordPosition(){
+        //return new Vector3(_currentGridposition._x, 0, _currentGridposition._z) * 2f;
+        return LevelGrid.Instance.GetWorldPosition(_currentGridposition);
     }
 
     public bool TrySpendActionPointsToTakeAction(BaseAction baseAction){

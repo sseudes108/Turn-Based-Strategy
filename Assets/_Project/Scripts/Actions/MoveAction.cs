@@ -36,8 +36,8 @@ public class MoveAction : BaseAction {
     }
 
     public override void TakeAction(GridPosition targetPosition, Action<bool> onActionComplete_SetBusy){
-        ActionStart(onActionComplete_SetBusy);
         _targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
+        ActionStart(onActionComplete_SetBusy);
     }
 
     private void PlayRunAnimation(){

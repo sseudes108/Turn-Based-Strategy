@@ -1,5 +1,4 @@
 using System;
-using TMPro;
 using UnityEngine;
 
 public class HealthSystem : MonoBehaviour{
@@ -16,7 +15,7 @@ public class HealthSystem : MonoBehaviour{
     public void Damage(int damageAmount){
         _currentHealth -= damageAmount;
         OnDamage?.Invoke(this, EventArgs.Empty);
-        
+
         if(_currentHealth <= 0){
             _currentHealth = 0;
             Die();

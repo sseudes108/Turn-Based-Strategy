@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEditor;
 
 public abstract class BaseAction : MonoBehaviour{
+
+    public static event EventHandler OnAnyActionStarted;
+    public static event EventHandler OnAnyActionCompleted;
+
     public Action<bool> _onActionComplete_SetBusy;
     protected Unit _unit;
     protected AnimationPlayer _animator;
@@ -17,10 +21,15 @@ public abstract class BaseAction : MonoBehaviour{
     protected void ActionComplete(){
         _isActive = false;
         _onActionComplete_SetBusy(false);
+
+        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
     }
+    
     protected void ActionStart(Action<bool> onActionComplete_SetBusy){
         this._onActionComplete_SetBusy = onActionComplete_SetBusy;
         _isActive = true;
+
+        OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
     }
 
     public abstract string GetActionName();
@@ -39,5 +48,9 @@ public abstract class BaseAction : MonoBehaviour{
 
     protected void PlayIdleAnimation(){
         _animator.ChangeAnimationState(_animator.RIFLE_AIMING_IDLE);
+    }
+
+    public Unit GetUnit(){
+        return _unit;
     }
 }

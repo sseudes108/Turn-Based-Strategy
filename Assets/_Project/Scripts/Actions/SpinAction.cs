@@ -16,8 +16,8 @@ public class SpinAction : BaseAction{
         }
     }
     public override void TakeAction(GridPosition gridposition, Action<bool> onActionComplete_SetBusy){
-        ActionStart(onActionComplete_SetBusy);
         _totalSpinAmount = 0;
+        ActionStart(onActionComplete_SetBusy);
     }
 
     public override string GetActionName(){

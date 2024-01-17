@@ -23,20 +23,19 @@ public class UnitWorldUI : MonoBehaviour{
         UpdateActionPointsText();
     }
 
-    private void UpdateActionPointsText(){
-        _actionPointsText.text = _unit.GetActionPoints().ToString();
-    }
-
     private void Unit_OnAnyActionPointsChanged(object sender, EventArgs e){
         UpdateActionPointsText();
     }
-
+    
     private void HealthSystem_OnDamage(object sender, EventArgs e){
         UpdateHealthBarImage();
     }
 
+    private void UpdateActionPointsText(){
+        _actionPointsText.text = _unit.GetActionPoints().ToString();
+    }
+
     private void UpdateHealthBarImage(){
         _healthBarImage.fillAmount = _healthSystem.GetHealthPointsNormalized();
-        Debug.Log(_healthSystem.GetHealthPointsNormalized());
     }
 }
