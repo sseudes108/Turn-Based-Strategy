@@ -4,6 +4,8 @@ using UnityEngine;
 public class Unit : MonoBehaviour{
     private const int ACTION_POINTS_MAX = 2;
     public static event EventHandler OnAnyActionPointsChanged;
+    public static event EventHandler OnAnyUnitSpawn;
+    public static event EventHandler OnAnyUnitDead;
 
     public event EventHandler OnUnitPositionChanged;
     private GridPosition _currentGridposition;
@@ -35,6 +37,7 @@ public class Unit : MonoBehaviour{
     private void Start() {
         _currentGridposition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(_currentGridposition, this);
+        OnAnyUnitSpawn?.Invoke(this, EventArgs.Empty);
     }
 
     private void Update(){
@@ -110,5 +113,6 @@ public class Unit : MonoBehaviour{
     private void HealhSystem_OnDead(object sender, EventArgs e){
         LevelGrid.Instance.RemoveUnitAtGridPosition(_currentGridposition, this);
         Destroy(gameObject);
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
 }
