@@ -25,7 +25,7 @@ public class MoveAction : BaseAction {
             PlayRunAnimation();
         }else{
             PlayIdleAnimation();
-            ActionComplete();
+            OnActionCompleted();
         }
         float rotateSpeed = 33f;
         transform.forward = Vector3.Lerp(transform.forward, Direction(), rotateSpeed * Time.deltaTime);
@@ -35,17 +35,15 @@ public class MoveAction : BaseAction {
         return (_targetPosition - transform.position).normalized;
     }
 
-    public override void TakeAction(GridPosition targetPosition, Action<bool> onActionComplete_SetBusy){
+    public override void TakeAction(GridPosition targetPosition, Action OnActionComplete){
+        this.onActionComplete = OnActionComplete;
         _targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
-        ActionStart(onActionComplete_SetBusy);
+        _isActive = true;
     }
 
     private void PlayRunAnimation(){
         _animator.ChangeAnimationState(_animator.RIFLE_RUN);
     }
-    // private void PlayIdleAnimation(){
-    //     _animator.ChangeAnimationState(_animator.RIFLE_AIMING_IDLE);
-    // }
 
     public override List<GridPosition> GetValidActionGridPositionList(){
         List<GridPosition> validActionGridPositionList = new();

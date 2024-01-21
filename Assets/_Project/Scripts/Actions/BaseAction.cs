@@ -1,45 +1,32 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 
 public abstract class BaseAction : MonoBehaviour{
+    protected Action onActionComplete;
 
     public static event EventHandler OnAnyActionStarted;
     public static event EventHandler OnAnyActionCompleted;
-
-    public Action<bool> _onActionComplete_SetBusy;
-    protected Unit _unit;
     protected AnimationPlayer _animator;
+
+    protected Unit _unit;
     protected bool _isActive;
+    
     
     protected virtual void Awake() {
         _unit = GetComponent<Unit>();
         _animator = GetComponent<AnimationPlayer>();
     }
 
-    protected void ActionComplete(){
-        _isActive = false;
-        _onActionComplete_SetBusy(false);
-
-        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
-    }
-    
-    protected void ActionStart(Action<bool> onActionComplete_SetBusy){
-        this._onActionComplete_SetBusy = onActionComplete_SetBusy;
-        _isActive = true;
-
-        OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
-    }
-
     public abstract string GetActionName();
 
-    public abstract void TakeAction(GridPosition gridposition, Action<bool> onActionComplete);
+    public abstract void TakeAction(GridPosition gridposition, Action onActionComplete);
 
     public virtual bool IsValidActionGridPosition(GridPosition gridPosition){
         List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
         return validGridPositionList.Contains(gridPosition);
     }
+
     public abstract List<GridPosition> GetValidActionGridPositionList();
 
     public virtual int GetActionPointsCost(){
@@ -52,5 +39,16 @@ public abstract class BaseAction : MonoBehaviour{
 
     public Unit GetUnit(){
         return _unit;
+    }
+
+    protected void OnActionCompleted(){
+        onActionComplete();
+        _isActive = false;
+        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected void OnActionStarted(){
+        _isActive = true;
+        OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
     }
 }

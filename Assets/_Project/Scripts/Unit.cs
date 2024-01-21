@@ -19,11 +19,11 @@ public class Unit : MonoBehaviour{
     [SerializeField] private bool _isEnemy;
 
     private void OnEnable() {
-        TurnSystem.OnTurnEnd += TurnSystem_OnTurnEnd;
+        TurnSystem.OnTurnChanged += TurnSystem_OnTurnEnd;
         _healthSystem.OnDead += HealhSystem_OnDead;
     }
     private void OnDisable() {
-        TurnSystem.OnTurnEnd -= TurnSystem_OnTurnEnd;
+        TurnSystem.OnTurnChanged -= TurnSystem_OnTurnEnd;
         _healthSystem.OnDead -= HealhSystem_OnDead;
     }
 

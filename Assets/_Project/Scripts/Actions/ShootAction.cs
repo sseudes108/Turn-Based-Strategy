@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Hierarchy;
 using UnityEngine;
 
 public class ShootAction : BaseAction{
@@ -48,7 +49,7 @@ public class ShootAction : BaseAction{
             case State.CoolOff:
                 if(_stateTimer <= 0){
                     PlayIdleAnimation();
-                    ActionComplete();
+                    OnActionCompleted();
                 }
                 break;
             default:
@@ -105,7 +106,7 @@ public class ShootAction : BaseAction{
         return validActionGridPositionList;
     }
 
-    public override void TakeAction(GridPosition gridposition, Action<bool> onActionComplete_SetBusy){
+    public override void TakeAction(GridPosition gridposition, Action onActionComplete){
         _targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridposition);
         
         _state = State.Aiming;
@@ -113,8 +114,9 @@ public class ShootAction : BaseAction{
         _stateTimer = aimingTime;
 
         _canShootBullet = true;
-        
-        ActionStart(onActionComplete_SetBusy);
+
+        this.onActionComplete = onActionComplete;
+        OnActionStarted();
     }
 
     public override string GetActionName() => "Shoot";

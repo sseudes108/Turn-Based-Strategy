@@ -9,10 +9,10 @@ public class TurnSystemUI : MonoBehaviour {
     [SerializeField] private GameObject _enemyTurnVisual;
 
     private void OnEnable() {
-        TurnSystem.OnTurnEnd += TurnSystem_OnTurnEnd;
+        TurnSystem.OnTurnChanged += TurnSystem_OnTurnEnd;
     }
     private void OnDisable() {
-        TurnSystem.OnTurnEnd -= TurnSystem_OnTurnEnd;
+        TurnSystem.OnTurnChanged -= TurnSystem_OnTurnEnd;
     }
 
     private void Start() {

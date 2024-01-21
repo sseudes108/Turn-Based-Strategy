@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpinAction : BaseAction{
+      
     private float _totalSpinAmount;
-    private void Update() {
+    private void Update() {        
         if(!_isActive)return;
 
         float spinAmount = 360f * Time.deltaTime;
@@ -12,12 +13,13 @@ public class SpinAction : BaseAction{
         
         _totalSpinAmount += spinAmount;
         if(_totalSpinAmount >= 360){
-            ActionComplete();
+            OnActionCompleted();
         }
     }
-    public override void TakeAction(GridPosition gridposition, Action<bool> onActionComplete_SetBusy){
-        _totalSpinAmount = 0;
-        ActionStart(onActionComplete_SetBusy);
+    public override void TakeAction(GridPosition gridposition, Action OnActionComplete){
+        this.onActionComplete = OnActionComplete;
+        _totalSpinAmount = 0f;
+        OnActionStarted();
     }
 
     public override string GetActionName(){
@@ -32,6 +34,6 @@ public class SpinAction : BaseAction{
     }
 
     public override int GetActionPointsCost(){
-        return 2;
+        return 1;
     }
 }

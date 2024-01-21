@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyAI : MonoBehaviour{
 
     public enum EnemyState{
-        Waiting, TakingTurn, Busy
+        WaitingForEnemyTurn, TakingTurn, Busy
     }
 
     private EnemyState _state;
@@ -12,15 +12,15 @@ public class EnemyAI : MonoBehaviour{
     private float _timer;
 
     private void OnEnable() {
-        TurnSystem.OnTurnEnd += TurnSystem_OnTurnEnd;
+        TurnSystem.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
     private void OnDisable() {
-        TurnSystem.OnTurnEnd -= TurnSystem_OnTurnEnd;
+        TurnSystem.OnTurnChanged -= TurnSystem_OnTurnChanged;
     }
 
     private void Awake() {
-        _state = EnemyState.Waiting;
+        _state = EnemyState.WaitingForEnemyTurn;
     }
 
     private void Update(){
@@ -28,29 +28,25 @@ public class EnemyAI : MonoBehaviour{
             return;
         }
 
-
         switch(_state){
-            case EnemyState.Waiting:
-
+            case EnemyState.WaitingForEnemyTurn:
             break;
+
             case EnemyState.TakingTurn:
                 _timer -= Time.deltaTime;
                 if(_timer <= 0f){
-                    _state = EnemyState.Busy;
-                    //TakeEnemyAIAction(SetStateTakingTurn);
-                    TakeEnemyAIAction();
-                    TurnSystem.Instance.NextTurn();
+                    
+                    if(TryTakeEnemyAIAction(SetStateTakingTurn)){
+                        _state = EnemyState.Busy;
+                    }else{
+                        //No more enemies have actions that can take
+                        TurnSystem.Instance.NextTurn();
+                    }
                 }
             break;
-            case EnemyState.Busy:
-                
-            break;
-        
-        }
 
-        _timer -= Time.deltaTime;
-        if(_timer <=0f){
-            TurnSystem.Instance.NextTurn();
+            case EnemyState.Busy:
+            break;
         }
     }
 
@@ -59,53 +55,34 @@ public class EnemyAI : MonoBehaviour{
         _state = EnemyState.TakingTurn;
     }
 
-    private void TurnSystem_OnTurnEnd(){
+    private void TurnSystem_OnTurnChanged(){
         if(!TurnSystem.Instance.IsPlayerTurn()){
             _state = EnemyState.TakingTurn;
             _timer = 2f;    
         }
     }
 
-    // private void TakeEnemyAIAction(Action onEnemyActionComplete){
-    //     foreach(Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList()){
-    //         TakeEnemyAIAction(enemyUnit, onEnemyActionComplete);
-    //     }
-    // }
-
-    // private void TakeEnemyAIAction(Unit enemyUnit, Action onEnemyActionComplete){
-    //     SpinAction spinAction = enemyUnit.GetSpinAction();
-
-    //     GridPosition actionGridPosition = enemyUnit.GetGridPosition();
-
-    //         if(spinAction.IsValidActionGridPosition(actionGridPosition)){
-
-    //         if(!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)){return;}
-            
-    //         //SetBusy(true);
-    //         spinAction.TakeAction(actionGridPosition, null);
-    //         //OnActionStart?.Invoke();
-    //     }
-    // }
-
-    private void TakeEnemyAIAction(){
-        foreach(Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList()){
-            TakeEnemyAIAction(enemyUnit);
+    private bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete){
+        Debug.Log("Enemy Action");
+        foreach(var enemyUnit in UnitManager.Instance.GetEnemyUnitList()){
+            if(TryTakeEnemyAIAction(enemyUnit, onEnemyAIActionComplete)){
+                return true;
+            };
         }
+        return false;
     }
 
-    private void TakeEnemyAIAction(Unit enemyUnit){
+    private bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete){
         SpinAction spinAction = enemyUnit.GetSpinAction();
 
         GridPosition actionGridPosition = enemyUnit.GetGridPosition();
+        
+        if(!spinAction.IsValidActionGridPosition(actionGridPosition)){return false;}
 
-            if(spinAction.IsValidActionGridPosition(actionGridPosition)){
+        if(!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)){return false;}
 
-            if(!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)){return;}
-            
-            //SetBusy(true);
-            spinAction.TakeAction(actionGridPosition, null);
-            //OnActionStart?.Invoke();
-            SetStateTakingTurn();
-        }
+        Debug.Log("Spin Action");
+        spinAction.TakeAction(actionGridPosition, onEnemyAIActionComplete);
+        return true;
     }
 }

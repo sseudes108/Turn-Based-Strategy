@@ -1,20 +1,19 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UnitActionSystem : MonoBehaviour{
 
     public static UnitActionSystem Instance {get; private set;}
+
     public event EventHandler OnUnitSelectedChanged;
     public event EventHandler OnUnitActionChanged;
-    public event Action OnBusyChanged;
-    public event Action OnActionStart;
-    
+    public event EventHandler<bool> OnBusyChanged;
+   
     [SerializeField] private Unit _selectedUnit;
-    private BaseAction _selectedAction;
     [SerializeField] private LayerMask _unitLayerMask;
 
+    private BaseAction _selectedAction;
     private bool _isBusy;
 
     private void Awake() {
@@ -47,16 +46,20 @@ public class UnitActionSystem : MonoBehaviour{
 
                 if(!_selectedUnit.TrySpendActionPointsToTakeAction(_selectedAction)){return;}
                 
-                SetBusy(true);
-                _selectedAction.TakeAction(mouseGridPosition, SetBusy);
-                OnActionStart?.Invoke();
+                SetBusy();
+                _selectedAction.TakeAction(mouseGridPosition, ClearBusy);
             }
         }
     }
 
-    private void SetBusy(bool busy){
-        _isBusy = busy;
-        OnBusyChanged.Invoke();
+    private void SetBusy(){
+        _isBusy = true;
+        OnBusyChanged?.Invoke(this, _isBusy);
+    }
+
+    private void ClearBusy(){
+        _isBusy = false;
+        OnBusyChanged?.Invoke(this, _isBusy);
     }
 
     private bool TryHandleUnitSelection(){

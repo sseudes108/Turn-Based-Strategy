@@ -11,15 +11,15 @@ public class UnitActionSystemUI : MonoBehaviour{
     private void OnEnable() {
         UnitActionSystem.Instance.OnUnitSelectedChanged += UnitActionSystem_OnUnitSelectedChanged;
         UnitActionSystem.Instance.OnUnitActionChanged += UnitActionSystem_OnUnitActionChanged;
-        UnitActionSystem.Instance.OnActionStart += UnitActionSystem_OnActionStart;
-        TurnSystem.OnTurnEnd += TurnSystem_OnTurnEnd;
+        BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
+        TurnSystem.OnTurnChanged += TurnSystem_OnTurnEnd;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
     }
     private void OnDisable() {
         UnitActionSystem.Instance.OnUnitSelectedChanged -= UnitActionSystem_OnUnitSelectedChanged;
         UnitActionSystem.Instance.OnUnitActionChanged -= UnitActionSystem_OnUnitActionChanged;
-        UnitActionSystem.Instance.OnActionStart -= UnitActionSystem_OnActionStart;
-        TurnSystem.OnTurnEnd -= TurnSystem_OnTurnEnd;
+        BaseAction.OnAnyActionStarted -= BaseAction_OnAnyActionStarted;
+        TurnSystem.OnTurnChanged -= TurnSystem_OnTurnEnd;
         Unit.OnAnyActionPointsChanged -= Unit_OnAnyActionPointsChanged;
     }
 
@@ -55,7 +55,7 @@ public class UnitActionSystemUI : MonoBehaviour{
         UpdateSelectedVisuals();
     }
 
-    private void UnitActionSystem_OnActionStart(){
+    private void BaseAction_OnAnyActionStarted(object sender, EventArgs e){
         UpdateActionPoints();
     }
 
