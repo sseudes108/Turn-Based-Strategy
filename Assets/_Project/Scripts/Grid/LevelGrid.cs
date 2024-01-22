@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class LevelGrid : MonoBehaviour{
     public static LevelGrid Instance {get; private set;}
-    [SerializeField] private Transform _gridObjectDebug;
+    [SerializeField] private Transform _gridObjectDebugPrefab;
 
-    private GridSystem _gridSystem;
+    private GridSystem<GridObject> _gridSystem;
 
     private void Awake() {
         if(Instance != null){
@@ -17,8 +17,8 @@ public class LevelGrid : MonoBehaviour{
     }
 
     private void Start(){
-        _gridSystem = new GridSystem(10, 10, 2f);
-        _gridSystem.CreateDebugObjets(_gridObjectDebug);
+        _gridSystem = new GridSystem<GridObject>(10, 10, 2f, (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
+        //_gridSystem.CreateDebugObjets(_gridObjectDebug);
     }
 
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit){

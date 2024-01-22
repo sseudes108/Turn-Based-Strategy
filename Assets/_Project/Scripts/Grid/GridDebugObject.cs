@@ -2,15 +2,15 @@ using UnityEngine;
 using TMPro;
 
 public class GridDebugObject : MonoBehaviour{
+    [SerializeField] private TextMeshPro _gridDebugText;
 
-    private GridObject _gridObject;
-    [SerializeField] private TMP_Text _gridDebugText;
+    private object _gridObject;
 
-    public void SetGridObject(GridObject gridObject){
+    public virtual void SetGridObject(object gridObject){
         this._gridObject = gridObject;
     }
 
-    private void Update() {
+    protected virtual void Update() {
         UpdateUI();
     }
 
