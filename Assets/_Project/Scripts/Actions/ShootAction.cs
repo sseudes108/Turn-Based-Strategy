@@ -77,11 +77,14 @@ public class ShootAction : BaseAction{
 
         transform.forward = Vector3.Lerp(transform.forward, aimDirection, rotationSpeed * Time.deltaTime);
     }
-
+    
     public override List<GridPosition> GetValidActionGridPositionList(){
-        List<GridPosition> validActionGridPositionList = new();
-
         GridPosition unitGridPosition = _unit.GetGridPosition();
+        return GetValidActionGridPositionList(unitGridPosition);
+    }
+
+    public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition){
+        List<GridPosition> validActionGridPositionList = new();
 
         for (int x = -_maxShootDistance; x <= _maxShootDistance; x++){
             for (int z = -_maxShootDistance; z <= _maxShootDistance; z++){
@@ -122,4 +125,15 @@ public class ShootAction : BaseAction{
     public override string GetActionName() => "Shoot";
     public Unit GetTargetUnit() => _targetUnit;
     public int GetMaxShootDistance() => _maxShootDistance;
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition){
+        return new EnemyAIAction{
+            _gridPosition = gridPosition,
+            _actionValue = 100,
+        };
+    }
+
+    public int GetTargetCountAtGridPosition(GridPosition gridPosition){
+        return GetValidActionGridPositionList(gridPosition).Count;
+    }
 }

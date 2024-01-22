@@ -63,7 +63,6 @@ public class EnemyAI : MonoBehaviour{
     }
 
     private bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete){
-        Debug.Log("Enemy Action");
         foreach(var enemyUnit in UnitManager.Instance.GetEnemyUnitList()){
             if(TryTakeEnemyAIAction(enemyUnit, onEnemyAIActionComplete)){
                 return true;
@@ -73,16 +72,33 @@ public class EnemyAI : MonoBehaviour{
     }
 
     private bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete){
-        SpinAction spinAction = enemyUnit.GetSpinAction();
 
-        GridPosition actionGridPosition = enemyUnit.GetGridPosition();
-        
-        if(!spinAction.IsValidActionGridPosition(actionGridPosition)){return false;}
+        EnemyAIAction bestEnemyAiAction = null;
+        BaseAction bestBaseAction = null;
 
-        if(!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)){return false;}
+        foreach(BaseAction baseAction in enemyUnit.GetBaseActionArray()){
 
-        Debug.Log("Spin Action");
-        spinAction.TakeAction(actionGridPosition, onEnemyAIActionComplete);
-        return true;
+            if(!enemyUnit.CanSpendActionPointsToTakeAction(baseAction)){
+                continue;
+            }
+
+            if(bestEnemyAiAction == null){
+                bestEnemyAiAction = baseAction.GetBestEnemyAIAction();
+                bestBaseAction = baseAction;
+            }else{
+                EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                if(testEnemyAIAction != null && testEnemyAIAction._actionValue > bestEnemyAiAction._actionValue){
+                    bestEnemyAiAction = testEnemyAIAction;
+                    bestBaseAction = baseAction;
+                }
+            }
+        }
+
+        if(bestEnemyAiAction != null && enemyUnit.TrySpendActionPointsToTakeAction(bestBaseAction)){
+            bestBaseAction.TakeAction(bestEnemyAiAction._gridPosition, onEnemyAIActionComplete);
+            return true;
+        }else{
+            return false;
+        }
     }
 }

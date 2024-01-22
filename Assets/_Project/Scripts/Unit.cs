@@ -13,6 +13,7 @@ public class Unit : MonoBehaviour{
     private HealthSystem _healthSystem;
     private MoveAction _moveAction;
     private SpinAction _spinAction;
+    private ShootAction _shootAction;
     private BaseAction[] _baseActionArray;
     private int _actionPoints = ACTION_POINTS_MAX;
 
@@ -31,6 +32,7 @@ public class Unit : MonoBehaviour{
         _healthSystem = GetComponent<HealthSystem>();
         _moveAction = GetComponent<MoveAction>();
         _spinAction = GetComponent<SpinAction>();
+        _shootAction = GetComponent<ShootAction>();
         _baseActionArray = GetComponents<BaseAction>();
     }
 
@@ -53,21 +55,11 @@ public class Unit : MonoBehaviour{
         _currentGridposition = newGridPosition;
     }
 
-    public MoveAction GetMoveAction(){
-        return _moveAction;
-    }
-
-    public SpinAction GetSpinAction(){
-        return _spinAction;
-    }
-
-    public GridPosition GetGridPosition(){
-        return _currentGridposition;
-    }
-
-    public BaseAction[] GetBaseActionArray(){
-        return _baseActionArray;
-    }
+    public MoveAction GetMoveAction() => _moveAction;
+    public SpinAction GetSpinAction() => _spinAction;
+    public ShootAction GetShootAction() => _shootAction;
+    public GridPosition GetGridPosition() => _currentGridposition;
+    public BaseAction[] GetBaseActionArray() => _baseActionArray;
 
     public bool IsEnemy(){
         return _isEnemy;
