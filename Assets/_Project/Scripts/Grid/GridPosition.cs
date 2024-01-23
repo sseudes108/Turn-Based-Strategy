@@ -1,20 +1,20 @@
 using System;
 public struct GridPosition: IEquatable<GridPosition>{
-    public int _x, _z;
+    public int x, z;
 
     public GridPosition(int x, int z){
-        this._x = x;
-        this._z = z;
+        this.x = x;
+        this.z = z;
     }
 
     public override readonly int GetHashCode(){
-        return HashCode.Combine(_x, _z);
+        return HashCode.Combine(x, z);
     }
 
     public override readonly bool Equals(object obj){
         return obj is GridPosition position &&
-            _x == position._x &&
-            _z == position._z;
+            x == position.x &&
+            z == position.z;
     }
     
     public readonly bool Equals(GridPosition other){
@@ -22,7 +22,7 @@ public struct GridPosition: IEquatable<GridPosition>{
     }
 
     public static bool operator == (GridPosition a, GridPosition b){
-        return a._x == b._x && a._z == b._z;
+        return a.x == b.x && a.z == b.z;
     }
 
     public static bool operator != (GridPosition a, GridPosition b){
@@ -31,19 +31,19 @@ public struct GridPosition: IEquatable<GridPosition>{
 
     public static GridPosition operator + (GridPosition a, GridPosition b){
         return new GridPosition{
-            _x = a._x + b._x,
-            _z = a._z + b._z
+            x = a.x + b.x,
+            z = a.z + b.z
         };
     }
 
     public static GridPosition operator - (GridPosition a, GridPosition b){
         return new GridPosition{
-            _x = a._x - b._x,
-            _z = a._z - b._z
+            x = a.x - b.x,
+            z = a.z - b.z
         };
     }
 
     public override readonly string ToString(){
-        return $"x:{_x}, z:{_z}";
+        return $"x:{x}, z:{z}";
     }
 }

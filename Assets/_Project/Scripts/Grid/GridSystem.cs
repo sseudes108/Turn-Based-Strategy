@@ -22,13 +22,13 @@ public class GridSystem<TGridObject>{
     }
 
     public Vector3 GetWorldPosition(GridPosition gridPosition){
-        return new Vector3(gridPosition._x, 0, gridPosition._z) * _cellSize;
+        return new Vector3(gridPosition.x, 0, gridPosition.z) * _cellSize;
     }
 
     public GridPosition GetGridPosition(Vector3 wordlPosition){
         return new GridPosition(){
-            _x = Mathf.RoundToInt(wordlPosition.x / _cellSize),
-            _z = Mathf.RoundToInt(wordlPosition.z / _cellSize),
+            x = Mathf.RoundToInt(wordlPosition.x / _cellSize),
+            z = Mathf.RoundToInt(wordlPosition.z / _cellSize),
         };
     }
 
@@ -38,20 +38,20 @@ public class GridSystem<TGridObject>{
                 GridPosition gridPosition = new GridPosition(x, z);
                 Transform debugObjectTransform = GameObject.Instantiate(debugPrefab, GetWorldPosition(gridPosition), Quaternion.identity);
                 GridDebugObject gridDebugObject = debugObjectTransform.GetComponent<GridDebugObject>();
-                gridDebugObject.SetGridObject(GetGridObjet(gridPosition));
+                gridDebugObject.SetGridObject(GetGridObject(gridPosition));
             }
         }
     }
 
-    public TGridObject GetGridObjet(GridPosition gridPosition){
-        return _gridObjectsArray[gridPosition._x, gridPosition._z];
+    public TGridObject GetGridObject(GridPosition gridPosition){
+        return _gridObjectsArray[gridPosition.x, gridPosition.z];
     }
 
     public bool IsValidGridPosition(GridPosition gridPosition){
-        return  gridPosition._x >= 0 && 
-                gridPosition._z >= 0 && 
-                gridPosition._x < _width && 
-                gridPosition._z < _height;
+        return  gridPosition.x >= 0 && 
+                gridPosition.z >= 0 && 
+                gridPosition.x < _width && 
+                gridPosition.z < _height;
     }
 
     public int GetWidth(){
