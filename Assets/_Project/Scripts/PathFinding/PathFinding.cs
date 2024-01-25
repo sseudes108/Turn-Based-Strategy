@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour{
@@ -9,6 +10,8 @@ public class PathFinding : MonoBehaviour{
     const int MOVE_DIAGONAL_COST = 14;
 
     [SerializeField] private Transform _gridObjectDebugPrefab;
+    [SerializeField] private LayerMask _obstaclesLayerMask;
+
     private int _width, _height, _cellsize;
     private GridSystem<PathNode> _gridSystem;
 
@@ -19,9 +22,28 @@ public class PathFinding : MonoBehaviour{
             return;
         }
         Instance = this;
+    }
 
-        _gridSystem = new GridSystem<PathNode>(10, 10, 2f, (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
+    public void SetUp(int width, int height, int cellsize){
+        this._width = width;
+        this._height = height;
+        this._cellsize = cellsize;
+
+        _gridSystem = new GridSystem<PathNode>(_width, _height, _cellsize, (GridSystem<PathNode> g, GridPosition gridPosition) => new PathNode(gridPosition));
         _gridSystem.CreateDebugObjets(_gridObjectDebugPrefab);
+
+        for (int x = 0; x < width; x++){
+            for(int z = 0; z < height; z++){
+                GridPosition gridPosition = new(x, z);
+                Vector3 worldPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
+                float rayCastOffsetDistance = 5.0f;
+                bool hasObstacle = Physics.Raycast(worldPosition + Vector3.down * rayCastOffsetDistance, Vector3.up, rayCastOffsetDistance * 2, _obstaclesLayerMask);
+
+                if(hasObstacle){
+                    GetNode(x,z).SetIsWalkable(false);
+                }
+            }
+        }
     }
 
     public List<GridPosition> FindPath(GridPosition startGridPosition, GridPosition endGridPosition){
@@ -67,6 +89,11 @@ public class PathFinding : MonoBehaviour{
                 Debug.Log("Teste");
 
                 if(closedList.Contains(neighbourNode)) continue;
+
+                if(!neighbourNode.IsWalkable()){
+                    closedList.Add(neighbourNode);
+                    continue;
+                }
 
                 int tentativeGCost = currentNode.GetGCost() + CalculateDistance(currentNode.GetGridPosition(), neighbourNode.GetGridPosition());
 

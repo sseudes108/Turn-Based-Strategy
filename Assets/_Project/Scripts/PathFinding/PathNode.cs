@@ -4,6 +4,9 @@ public class PathNode{
     private GridPosition _gridPosition;
 
     private int _gCost, _hCost, _fCost;
+
+    private bool _isWalkable = true;
+
     private PathNode _cameFromPathNode;
 
     public PathNode(GridPosition gridPosition){
@@ -21,14 +24,14 @@ public class PathNode{
         this._hCost = hCost;
     }
     public void CalculateFCost(){
-        _fCost = _gCost + _hCost;
+        this._fCost = _gCost + _hCost;
     }
     
     public void ResetCameFromPathNode(){
-        _cameFromPathNode = null;
+        this._cameFromPathNode = null;
     }
     public void SetCameFromPathNode(PathNode pathNode){
-        _cameFromPathNode = pathNode;
+        this._cameFromPathNode = pathNode;
     }
     public PathNode GetCameFromPathNode() => _cameFromPathNode;
 
@@ -36,5 +39,10 @@ public class PathNode{
     public int GetHCost() => _hCost;
     public int GetFCost() => _fCost;
     public GridPosition GetGridPosition() => _gridPosition;
+    public bool IsWalkable() => _isWalkable;
+
+    public void SetIsWalkable(bool isWalkable){
+        this._isWalkable = isWalkable;
+    }
 }
 

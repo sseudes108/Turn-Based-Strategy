@@ -7,6 +7,8 @@ public class LevelGrid : MonoBehaviour{
 
     private GridSystem<GridObject> _gridSystem;
 
+    [SerializeField] private int _width, _height, _cellsize;
+
     private void Awake() {
         if(Instance != null){
             Debug.Log("There's more than one LevelGrid" + transform + "-" + Instance);
@@ -14,11 +16,11 @@ public class LevelGrid : MonoBehaviour{
             return;
         }
         Instance = this;
+        _gridSystem = new GridSystem<GridObject>(_width, _height, _cellsize, (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
     }
 
     private void Start(){
-        _gridSystem = new GridSystem<GridObject>(10, 10, 2f, (GridSystem<GridObject> g, GridPosition gridPosition) => new GridObject(g, gridPosition));
-        //_gridSystem.CreateDebugObjets(_gridObjectDebug);
+        PathFinding.Instance.SetUp(_width, _height, _cellsize);
     }
 
     public void AddUnitAtGridPosition(GridPosition gridPosition, Unit unit){
