@@ -103,6 +103,16 @@ public class ShootAction : BaseAction{
                 //Both units are in the same "Team"
                 if(targetUnit.IsEnemy() == _unit.IsEnemy()){continue;}
 
+                Vector3 shootDir = (targetUnit.GetWorldPosition() - _unit.GetWorldPosition()).normalized;
+                
+                float unitShoulderHight = 1.7f;
+
+                if(Physics.Raycast(_unit.GetWorldPosition() + Vector3.up * unitShoulderHight, shootDir, Vector3.Distance(_unit.GetWorldPosition(), targetUnit.GetWorldPosition()),
+                    LayerMask.NameToLayer("Osbtacle")))
+                {
+                    continue;
+                }
+
                 validActionGridPositionList.Add(testGridPosition);
             }
         }

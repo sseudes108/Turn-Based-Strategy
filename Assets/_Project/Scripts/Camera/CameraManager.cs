@@ -29,15 +29,15 @@ public class CameraManager : MonoBehaviour{
                 
                 Vector3 cameraCharacterHeight = Vector3.up * 1.7f;
 
-                Vector3 shootDir = (targetUnit.GetWordPosition() - shooterUnit.GetWordPosition()).normalized;
+                Vector3 shootDir = (targetUnit.GetWorldPosition() - shooterUnit.GetWorldPosition()).normalized;
 
                 float shoulderOffsetAmout = 0.5f;
                 Vector3 shoulderOffset = Quaternion.Euler(0, 90, 0)* shootDir * shoulderOffsetAmout;
 
-                Vector3 actionCameraPos = shooterUnit.GetWordPosition() + cameraCharacterHeight + shoulderOffset + shootDir * -1;
+                Vector3 actionCameraPos = shooterUnit.GetWorldPosition() + cameraCharacterHeight + shoulderOffset + shootDir * -1;
 
                 _actionCameraGameObject.transform.position = actionCameraPos;
-                _actionCameraGameObject.transform.LookAt(targetUnit.GetWordPosition() + cameraCharacterHeight);
+                _actionCameraGameObject.transform.LookAt(targetUnit.GetWorldPosition() + cameraCharacterHeight);
 
                 ShowActionCamera();
             break;

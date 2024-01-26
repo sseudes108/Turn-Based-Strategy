@@ -65,7 +65,7 @@ public class Unit : MonoBehaviour{
         return _isEnemy;
     }
 
-    public Vector3 GetWordPosition(){
+    public Vector3 GetWorldPosition(){
         return LevelGrid.Instance.GetWorldPosition(_currentGridposition);
     }
 

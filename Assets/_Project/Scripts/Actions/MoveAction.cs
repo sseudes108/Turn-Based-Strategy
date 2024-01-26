@@ -37,7 +37,7 @@ public class MoveAction : BaseAction {
     public override void TakeAction(GridPosition gridPosition, Action OnActionComplete){
         this.onActionComplete = OnActionComplete;
 
-        List<GridPosition> pathGridPositionList = PathFinding.Instance.FindPath(_unit.GetGridPosition(), gridPosition);
+        List<GridPosition> pathGridPositionList = PathFinding.Instance.FindPath(_unit.GetGridPosition(), gridPosition, out int pathLenght);
 
         _currentPositionIndex = 0;
         _positionlist = new List<Vector3>();
@@ -66,8 +66,25 @@ public class MoveAction : BaseAction {
                 GridPosition testGridPosition = unitGridPosition + offSetGridPosition;
 
                 if(!LevelGrid.Instance.IsValidGridPosition(testGridPosition)){continue;}
+
+                //if where the unit is
                 if(unitGridPosition == testGridPosition){continue;}
+
+                //ocupied
                 if(LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)){continue;}
+
+                //Not walkable
+                if(!PathFinding.Instance.IsWalkableGridPosition(testGridPosition)){continue;}
+
+                //Any path to destination
+                if(!PathFinding.Instance.HasPath(unitGridPosition, testGridPosition)){continue;}
+
+
+                int pathFindingDistanceMultiplier = 10;
+                if(PathFinding.Instance.GetPathLenght(unitGridPosition, testGridPosition) > maxMoveDistance * pathFindingDistanceMultiplier){
+                    //too far
+                    continue;
+                }
 
                 validActionGridPositionList.Add(testGridPosition);
             }
