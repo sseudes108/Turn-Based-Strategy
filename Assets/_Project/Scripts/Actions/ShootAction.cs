@@ -1,9 +1,14 @@
 using System;
 using System.Collections.Generic;
+using Cinemachine;
+using Cinemachine.Editor;
 using Unity.Hierarchy;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShootAction : BaseAction{
+
+    public static Action<ShootAction> OnShoot;
 
     [SerializeField] private Transform _bulletProjectilePrefab;
     [SerializeField] private Transform _firePoint;
@@ -65,6 +70,7 @@ public class ShootAction : BaseAction{
         newBullet.GetComponent<BulletProjectile>().Init(shotDirection);
 
         _targetUnit.Damage(40);
+        OnShoot?.Invoke(this);
     }
 
     private void PlayShootAnimation(){
@@ -103,11 +109,12 @@ public class ShootAction : BaseAction{
                 //Both units are in the same "Team"
                 if(targetUnit.IsEnemy() == _unit.IsEnemy()){continue;}
 
-                Vector3 shootDir = (targetUnit.GetWorldPosition() - _unit.GetWorldPosition()).normalized;
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                Vector3 shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
                 
                 float unitShoulderHight = 1.7f;
 
-                if(Physics.Raycast(_unit.GetWorldPosition() + Vector3.up * unitShoulderHight, shootDir, Vector3.Distance(_unit.GetWorldPosition(), targetUnit.GetWorldPosition()),
+                if(Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHight, shootDir, Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
                     LayerMask.NameToLayer("Osbtacle")))
                 {
                     continue;

@@ -79,7 +79,6 @@ public class MoveAction : BaseAction {
                 //Any path to destination
                 if(!PathFinding.Instance.HasPath(unitGridPosition, testGridPosition)){continue;}
 
-
                 int pathFindingDistanceMultiplier = 10;
                 if(PathFinding.Instance.GetPathLenght(unitGridPosition, testGridPosition) > maxMoveDistance * pathFindingDistanceMultiplier){
                     //too far

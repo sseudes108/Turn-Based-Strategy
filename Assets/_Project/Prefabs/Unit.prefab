@@ -674,7 +674,7 @@ Transform:
   m_GameObject: {fileID: 2126066082449044279}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 6}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2977,6 +2977,7 @@ GameObject:
   - component: {fileID: 7302985823050710905}
   - component: {fileID: 4115766302470511762}
   - component: {fileID: 5948922736684930519}
+  - component: {fileID: 8926349546931927639}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -3117,6 +3118,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6655442, y: 1.6583943, z: 0.86298144}
   m_Center: {x: -0.0062536895, y: 0.78918207, z: -0.049689114}
+--- !u!114 &8926349546931927639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9031898599618703483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4715058a5b177e94cb9a1eb2b62769e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grandeProjectilePrefab: {fileID: 2512462560211596822, guid: 465ffb6e527155c48a90f0f8b87f6df8,
+    type: 3}
 --- !u!1 &9058199359735606606
 GameObject:
   m_ObjectHideFlags: 0
